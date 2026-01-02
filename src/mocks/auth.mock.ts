@@ -73,7 +73,7 @@ export const mockChildren: Children[] = mockStudents.map((student) => {
 export const smsCodeStore = new Map<string, string>();
 
 // Rate limiting 저장소 (전화번호 -> 마지막 발송 시간)
-export const rateLimitStore = new Map<string, number>();
+export const smsRateLimitStore = new Map<string, number>();
 
 // Verification token 저장소 (verificationToken -> 전화번호)
 export const verificationTokenStore = new Map<string, string>();
