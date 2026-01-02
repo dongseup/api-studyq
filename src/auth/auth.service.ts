@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import type { IAuthRepository } from './auth.repository.interface';
 import {
   LogoutResponse,
@@ -8,7 +8,10 @@ import {
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly authRepository: IAuthRepository) {}
+  constructor(
+    @Inject('IAuthRepository')
+    private readonly authRepository: IAuthRepository,
+  ) {}
 
   async sendSms(
     phoneNumber: string,
