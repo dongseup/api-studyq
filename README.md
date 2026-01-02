@@ -1,98 +1,328 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# API StudyQ
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+NestJS 기반의 학습 관리 시스템 API 서버입니다.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 📋 목차
 
-## Description
+- [기술 스택](#기술-스택)
+- [프로젝트 구조](#프로젝트-구조)
+- [시작하기](#시작하기)
+- [환경 변수 설정](#환경-변수-설정)
+- [API 엔드포인트](#api-엔드포인트)
+- [아키텍처](#아키텍처)
+- [개발 가이드](#개발-가이드)
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## 🛠 기술 스택
 
-## Project setup
+- **Framework**: NestJS 11.x
+- **Language**: TypeScript 5.7
+- **Database**: MySQL (mysql2)
+- **Authentication**: JWT (Passport)
+- **Validation**: class-validator, class-transformer
+- **Code Quality**: ESLint, Prettier
 
-```bash
-$ npm install
+## 📁 프로젝트 구조
+
+```
+src/
+├── auth/                    # 인증 모듈
+│   ├── dto/                 # 데이터 전송 객체
+│   │   ├── sms-send.dto.ts
+│   │   ├── sms-verify.dto.ts
+│   │   ├── exchange.dto.ts
+│   │   ├── refresh.dto.ts
+│   │   └── logout.dto.ts
+│   ├── types/               # 타입 정의
+│   │   └── auth.types.ts
+│   ├── auth.controller.ts  # 컨트롤러
+│   ├── auth.service.ts      # 서비스
+│   ├── auth.module.ts       # 모듈
+│   ├── auth.repository.interface.ts  # Repository 인터페이스
+│   └── auth.repository.mock.ts       # Mock Repository 구현
+├── config/                  # 설정 파일
+│   └── jwt.config.ts
+├── database/               # 데이터베이스 모듈
+│   └── database.module.ts
+├── mocks/                  # Mock 데이터
+│   └── auth.mock.ts
+├── scripts/                # 유틸리티 스크립트
+│   └── debug-db-connection.ts
+├── app.module.ts           # 루트 모듈
+├── app.controller.ts       # 루트 컨트롤러
+├── app.service.ts          # 루트 서비스
+└── main.ts                 # 애플리케이션 진입점
 ```
 
-## Compile and run the project
+## 🚀 시작하기
+
+### 사전 요구사항
+
+- Node.js 18.x 이상
+- npm 또는 yarn
+- MySQL (선택사항, Mock 모드 사용 시 불필요)
+
+### 설치
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+# 의존성 설치
+npm install
 ```
 
-## Run tests
+### 실행
 
 ```bash
-# unit tests
-$ npm run test
+# 개발 모드 (watch 모드)
+npm run start:dev
 
-# e2e tests
-$ npm run test:e2e
+# 프로덕션 빌드
+npm run build
+npm run start:prod
 
-# test coverage
-$ npm run test:cov
+# 디버그 모드
+npm run start:debug
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### 테스트
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+# 단위 테스트
+npm run test
+
+# E2E 테스트
+npm run test:e2e
+
+# 테스트 커버리지
+npm run test:cov
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## ⚙️ 환경 변수 설정
 
-## Resources
+`.env` 파일을 생성하고 다음 변수들을 설정하세요:
 
-Check out a few resources that may come in handy when working with NestJS:
+```env
+# 서버 설정
+PORT=3000
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+# 데이터베이스 (선택사항)
+DATABASE_URL=mysql://user:password@host:port/database
 
-## Support
+# JWT 설정
+JWT_SECRET=your-secret-key-change-in-production
+JWT_EXPIRES_IN=3600                    # Access Token 만료 시간 (초)
+JWT_REFRESH_SECRET=your-refresh-secret  # 선택사항
+JWT_REFRESH_EXPIRES_IN=604800          # Refresh Token 만료 시간 (초, 기본 7일)
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+# Mock 모드 (데이터베이스 없이 실행)
+USE_MOCK=true                           # true로 설정 시 Mock Repository 사용
+```
 
-## Stay in touch
+### Mock 모드
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+데이터베이스 연결 없이 개발하려면 `USE_MOCK=true`로 설정하거나 `DATABASE_URL`을 설정하지 않으면 자동으로 Mock 모드로 실행됩니다.
 
-## License
+## 📡 API 엔드포인트
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+### 인증 (Auth)
+
+#### 1. SMS 인증번호 발송
+
+```http
+POST /api/auth/sms/send
+Content-Type: application/json
+
+{
+  "phoneNumber": "01012345678"
+}
+```
+
+**응답:**
+
+```json
+{
+  "status": "success",
+  "message": "인증번호가 발송되었습니다."
+}
+```
+
+**에러 (429 Too Many Requests):**
+
+```json
+{
+  "status": 429,
+  "detail": "너무 빠른 재요청입니다. 30초 후 다시 시도해주세요."
+}
+```
+
+#### 2. SMS 인증번호 확인
+
+```http
+POST /api/auth/sms/verify
+Content-Type: application/json
+
+{
+  "phoneNumber": "01012345678",
+  "code": "123456"
+}
+```
+
+**응답:**
+
+```json
+{
+  "status": "success",
+  "message": "인증번호가 확인되었습니다.",
+  "verificationToken": "verification-token-here",
+  "studentCodes": ["S2025A00123", "S2025A00456"],
+  "students": [
+    {
+      "code": "S2025A00123",
+      "name": "홍길동",
+      "engName": "Brian",
+      "photo": "https://..."
+    }
+  ]
+}
+```
+
+#### 3. 토큰 교환 (로그인)
+
+```http
+POST /api/auth/exchange
+Content-Type: application/json
+
+{
+  "verificationToken": "verification-token-here",
+  "s_code": "S2025A00123"
+}
+```
+
+**응답:**
+
+```json
+{
+  "status": "success",
+  "message": "ok",
+  "accessToken": "jwt-access-token",
+  "refreshToken": "jwt-refresh-token",
+  "expiresIn": 3600,
+  "student": {
+    "user_id": 1,
+    "s_code": "S2025A00123",
+    "name": "홍길동",
+    ...
+  }
+}
+```
+
+#### 4. 토큰 갱신
+
+```http
+POST /api/auth/refresh
+Content-Type: application/json
+
+{
+  "refreshToken": "jwt-refresh-token"
+}
+```
+
+**응답:** 토큰 교환과 동일한 형식
+
+#### 5. 로그아웃
+
+```http
+POST /api/auth/logout
+Content-Type: application/json
+
+{
+  "refreshToken": "jwt-refresh-token"
+}
+```
+
+**응답:**
+
+```json
+{
+  "status": "success",
+  "message": "ok"
+}
+```
+
+### 기타
+
+#### 데이터베이스 연결 테스트
+
+```http
+GET /db
+```
+
+## 🏗 아키텍처
+
+이 프로젝트는 **계층형 아키텍처(Layered Architecture)**를 따릅니다:
+
+```
+Controller (HTTP 요청/응답 처리)
+    ↓
+Service (비즈니스 로직)
+    ↓
+Repository (데이터 접근)
+    ↓
+Database/External API
+```
+
+### 주요 패턴
+
+- **Repository Pattern**: 데이터 접근 로직을 인터페이스로 추상화하여 테스트 용이성과 유연성 확보
+- **Dependency Injection**: NestJS의 DI 컨테이너를 활용한 의존성 관리
+- **DTO Pattern**: 데이터 검증 및 타입 안전성 보장
+
+### 모듈 구조
+
+- **AuthModule**: 인증 관련 기능 (SMS 인증, JWT 토큰 관리)
+- **DatabaseModule**: 데이터베이스 연결 관리 (Global 모듈)
+- **ConfigModule**: 환경 변수 관리 (Global 모듈)
+
+## 💻 개발 가이드
+
+### 코드 스타일
+
+- **들여쓰기**: 스페이스 2칸
+- **라인 끝**: 자동 (Prettier 설정)
+- **따옴표**: 단일 따옴표
+
+### 린팅 및 포맷팅
+
+```bash
+# 코드 포맷팅
+npm run format
+
+# 린팅
+npm run lint
+```
+
+### 새로운 기능 추가
+
+1. **Repository 인터페이스 정의** (`auth.repository.interface.ts`)
+2. **Mock 구현** (`auth.repository.mock.ts`)
+3. **Service 로직 구현** (`auth.service.ts`)
+4. **Controller 엔드포인트 추가** (`auth.controller.ts`)
+5. **DTO 정의** (`dto/` 디렉토리)
+
+### 테스트 작성
+
+```bash
+# 단위 테스트 예시
+describe('AuthService', () => {
+  it('should send SMS', async () => {
+    // 테스트 코드
+  });
+});
+```
+
+## 📚 참고 문서
+
+- [NestJS 공식 문서](https://docs.nestjs.com)
+- [API 상세 문서](./backend_doc.md)
+
+## 📝 라이선스
+
+이 프로젝트는 비공개 프로젝트입니다.
