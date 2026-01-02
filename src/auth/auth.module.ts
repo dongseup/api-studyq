@@ -31,8 +31,6 @@ const repositoryProvider = USE_MOCK
       provide: 'IAuthRepository',
       useExisting: 'AUTH_REPOSITORY',
     },
-    // AuthRepositoryMock도 직접 주입 가능하도록
-    AuthRepositoryMock,
   ],
   exports: [AuthService],
 })
