@@ -100,6 +100,8 @@ export function createAccessTokenPayload(student: Student) {
     userId: student.user_id,
     userRole: student.user_role,
     classSeq: student.class_seq,
+    s_code: student.s_code,
+    a_code: student.a_code,
   };
 }
 
@@ -109,5 +111,7 @@ export function createRefreshTokenPayload(student: Student) {
     sub: student.s_code,
     userId: student.user_id,
     type: 'refresh',
+    s_code: student.s_code,
+    a_code: student.a_code,
   };
 }
